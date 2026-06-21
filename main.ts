@@ -1,33 +1,26 @@
 input.onLogoEvent(TouchButtonEvent.Pressed, function () {
     logotouch()
 })
-function logotouch() {
+function logotouch () {
     robotbit.MotorStopAll()
     basic.showNumber(rad_faktor)
     autolauf = 0
     basic.pause(500)
     zzz = zzz_vorgabe
-
-
     let v_arr = "7,8,9,10,11,12,13,14,15,16,15,10,9,8,7,6,5,4,3"
         .split(",")
         .map(s => parseInt(s))
-
-    for (let index = 0; index < 5; index++) {
+for (let index = 0; index < 5; index++) {
         basic.showLeds(`
-        . . # . .
-        . # . # .
-        # . . . #
-        . . . . .
-        . . . . .
-        `)
-
-
-
-        for (let index = 0; index <= v_arr.length - 1; index++) {
-
-            zzz = v_arr[index]
-            if (zzz == 15)
+            . . # . .
+            . # . # .
+            # . . . #
+            . . . . .
+            . . . . .
+            `)
+        for (let index2 = 0; index2 <= v_arr.length - 1; index2++) {
+            zzz = v_arr[index2]
+            if (zzz == 15) {
                 basic.showLeds(`
                     . . . . .
                     . . . . .
@@ -35,8 +28,8 @@ function logotouch() {
                     . # . # .
                     . . # . .
                     `)
+            }
             basic.showNumber(zzz % 10)
-
             // dauerschleife(1)
             drehimpuls(10 * zzz)
             basic.pause(500)
@@ -47,28 +40,18 @@ function logotouch() {
 }
 input.onButtonPressed(Button.A, function () {
     rad_faktor += -0.1
-
     music.play(music.tonePlayable(262, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
     basic.showNumber(rad_faktor)
 })
-
-input.onButtonPressed(Button.B, function () {
-    rad_faktor += 0.1
-
-    music.play(music.tonePlayable(262, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
-    basic.showNumber(rad_faktor)
-})
-function drehimpuls(v: number) {
-
+function drehimpuls (v: number) {
     robotbit.MotorRunDual(
-        robotbit.Motors.M1A,
-        v * richtung,
-        robotbit.Motors.M2A,
-        v * richtung * rad_faktor
+    robotbit.Motors.M1A,
+    v * richtung,
+    robotbit.Motors.M2A,
+    v * richtung * rad_faktor
     )
-
 }
-function init() {
+function init () {
     zzz_vorgabe = 5
     zzz = zzz_vorgabe
     start_speed = 110
@@ -88,7 +71,7 @@ function init() {
         `)
     logotouch()
 }
-function werte_rechnen(receivedNumber: number) {
+function werte_rechnen (receivedNumber: number) {
     basic.clearScreen()
     if (receivedNumber == 2) {
         zzz = zzz_vorgabe
@@ -105,8 +88,12 @@ input.onButtonPressed(Button.AB, function () {
     zzz = zzz_vorgabe
     init()
 })
-
-function dauerschleife(warte: number) {
+input.onButtonPressed(Button.B, function () {
+    rad_faktor += 0.1
+    music.play(music.tonePlayable(262, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
+    basic.showNumber(rad_faktor)
+})
+function dauerschleife (warte: number) {
     basic.showNumber(zzz % 10)
     // zzz += 1
     if (zzz >= limit) {
@@ -115,7 +102,7 @@ function dauerschleife(warte: number) {
         drehimpuls(start_speed)
         basic.clearScreen()
     } else {
-
+    	
     }
     speed = zzz * step_size * richtung
     drehimpuls(speed)
@@ -125,13 +112,13 @@ let speed = 0
 let limit = 0
 let step_size = 0
 let start_speed = 0
-let wert = 0
-let v_arr: number[] = []
 let zzz_vorgabe = 0
 let zzz = 0
 let rad_faktor = 0
 let autolauf = 0
 let richtung = 0
+let v_arr2: number[] = []
+let wert = 0
 robotbit.MotorStopAll()
 basic.pause(1000)
 richtung = 1
