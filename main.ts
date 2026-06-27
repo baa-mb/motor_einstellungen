@@ -1,7 +1,7 @@
 input.onLogoEvent(TouchButtonEvent.Pressed, function () {
     logotouch()
 })
-function logotouch() {
+function logotouch () {
     robotbit.MotorStopAll()
     basic.showNumber(links_rad_faktor)
     autolauf = 0
@@ -10,7 +10,7 @@ function logotouch() {
     let v_arr = "7,8,9,10,11,12,13,14,15,16,15,10,9,8,7,6,5,4,3"
         .split(",")
         .map(s => parseInt(s))
-    for (let index = 0; index < 5; index++) {
+for (let index = 0; index < 5; index++) {
         basic.showLeds(`
             . . # . .
             . # . # .
@@ -43,15 +43,15 @@ input.onButtonPressed(Button.A, function () {
     music.play(music.tonePlayable(262, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
     basic.showNumber(links_rad_faktor)
 })
-function drehimpuls(v: number) {
+function drehimpuls (v: number) {
     robotbit.MotorRunDual(
-        robotbit.Motors.M1A,
-        v * richtung,
-        robotbit.Motors.M2A,
-        v * richtung * links_rad_faktor
+    robotbit.Motors.M1A,
+    v * richtung,
+    robotbit.Motors.M2A,
+    v * richtung * links_rad_faktor
     )
 }
-function init() {
+function init () {
     zzz_vorgabe = 5
     zzz = zzz_vorgabe
     start_speed = 110
@@ -71,7 +71,7 @@ function init() {
         `)
     logotouch()
 }
-function werte_rechnen(receivedNumber: number) {
+function werte_rechnen (receivedNumber: number) {
     basic.clearScreen()
     if (receivedNumber == 2) {
         zzz = zzz_vorgabe
@@ -93,7 +93,7 @@ input.onButtonPressed(Button.B, function () {
     music.play(music.tonePlayable(262, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
     basic.showNumber(links_rad_faktor)
 })
-function dauerschleife(warte: number) {
+function dauerschleife (warte: number) {
     basic.showNumber(zzz % 10)
     // zzz += 1
     if (zzz >= limit) {
@@ -102,7 +102,7 @@ function dauerschleife(warte: number) {
         drehimpuls(start_speed)
         basic.clearScreen()
     } else {
-
+    	
     }
     speed = zzz * step_size * richtung
     drehimpuls(speed)
@@ -117,8 +117,8 @@ let zzz = 0
 let links_rad_faktor = 0
 let autolauf = 0
 let richtung = 0
-let wert = 0
 let v_arr2: number[] = []
+let wert = 0
 robotbit.MotorStopAll()
 basic.pause(1000)
 richtung = 1
