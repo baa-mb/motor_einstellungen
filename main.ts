@@ -2,16 +2,17 @@ input.onLogoEvent(TouchButtonEvent.Pressed, function () {
     logotouch()
 })
 function logotouch () {
+    abbruch=false
+
+    basic.clearScreen()
     robotbit.MotorStopAll()
-    basic.showNumber(links_rad_faktor)
+    basic.showString("L=" + links_rad_faktor)
     autolauf = 0
     basic.pause(500)
     zzz = zzz_start
-    let v_arr = "7,8,9,10,11,12,13,14,15,16,15,10,9,8,7,6,5,4,3"
-        .split(",")
-        .map(s => parseInt(s))
-for (let index = 0; index <= 4; index++) {
-
+    let v_arr = "3,4,5,7,8,9,10,11,12,13,14,15,16,10,9,8,7,6,5,4,3".split(",").map(s => parseInt(s))
+    for (let index = 0; index <= 4; index++) {
+        let add_time = 0
         basic.showLeds(`
             . . # . .
             . # # # .
@@ -19,10 +20,11 @@ for (let index = 0; index <= 4; index++) {
             # . . . #
             . . . . .
             `)
-        basic.pause(500)
-        for (let index2 = 0; index2 <= v_arr.length - 1; index2++) {
-            zzz = v_arr[index2]
-            if (zzz == 15) {
+        basic.pause(1000)
+        for (let j = 0; j <= v_arr.length - 1; j++) {
+            zzz = v_arr[j]
+            if (j==13) {
+                add_time=500
                 basic.showLeds(`
                     . . . . .
                     # . . . #
@@ -30,27 +32,44 @@ for (let index = 0; index <= 4; index++) {
                     . # # # .
                     . . # . .
                     `)
-                basic.pause(500)
+                basic.pause(1000)
             }
-            basic.showNumber(zzz % 10)
+            // basic.showNumber(zzz % 10)
+            // basic.showString("x"+j)
+            basic.showString(String.fromCharCode(62+zzz))
             // dauerschleife(1)
+            serial.writeValue("zzz", zzz)
             drehimpuls(10 * zzz)
-            basic.pause(500)
+            if (abbruch) {
+                j = 99
+            }
+            basic.pause(500+add_time)
         }
         robotbit.MotorStopAll()
         if (abbruch) {
             index = 99
         }
     }
-    basic.showString("F=" + links_rad_faktor)
 }
 input.onButtonPressed(Button.A, function () {
     abbruch = true
     links_rad_faktor += -0.1
     music.play(music.tonePlayable(262, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
-    basic.showNumber(links_rad_faktor)
+    // basic.showNumber(links_rad_faktor)
     basic.pause(500)
+    logotouch()
+
 })
+
+input.onButtonPressed(Button.B, function () {
+    abbruch = true
+    links_rad_faktor += 0.1
+    music.play(music.tonePlayable(262, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
+    // basic.showNumber(links_rad_faktor)
+    basic.pause(500)
+    logotouch()
+})
+
 function drehimpuls (v: number) {
     robotbit.MotorRunDual(
     robotbit.Motors.M1A,
@@ -67,14 +86,6 @@ function init () {
     links_rad_faktor = 1
     limit = 14
     robotbit.MotorStopAll()
-    // basic.showNumber(links_rad_faktor)
-    basic.showLeds(`
-        . . # . .
-        . # . # .
-        # . # . #
-        . . # . .
-        . . # . .
-        `)
     logotouch()
 }
 function werte_rechnen (receivedNumber: number) {
@@ -93,13 +104,6 @@ input.onButtonPressed(Button.AB, function () {
     zzz_start = zzz_start + -1
     zzz = zzz_start
     init()
-})
-input.onButtonPressed(Button.B, function () {
-    abbruch = true
-    links_rad_faktor += 0.1
-    music.play(music.tonePlayable(262, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
-    basic.showNumber(links_rad_faktor)
-    basic.pause(500)
 })
 function dauerschleife (warte: number) {
     basic.showNumber(zzz % 10)
@@ -120,15 +124,14 @@ let speed = 0
 let limit = 0
 let step_size = 0
 let start_speed = 0
-
+let abbruch = false
 let zzz_start = 0
 let zzz = 0
 let links_rad_faktor = 0
 let autolauf = 0
 let richtung = 0
-let wert = 0
 let v_arr2: number[] = []
-let abbruch=false
+let wert = 0
 // drehimpuls(start_speed)
 basic.showIcon(IconNames.Yes)
 robotbit.MotorStopAll()
@@ -136,8 +139,4 @@ basic.pause(1000)
 richtung = 1
 autolauf = 0
 init()
-basic.forever(function () {
-    if (autolauf == 1) {
-        dauerschleife(1000)
-    }
-})
+
